@@ -1,31 +1,34 @@
-name: CI NestJS
+name: Backend CI
 
-# Workflow dijalankan saat ada push atau pull request ke branch main
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - develop
   pull_request:
-    branches: [ main ]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: backend
+
     steps:
-      - name: Checkout kode
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: 22
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Build aplikasi
-        run: npm run build
+      - name: Run Lint
+        run: npm run lint
 
-      - name: Jalankan unit test
-        run: npm run test
+      - name: Run Tests
+        run: npm test
