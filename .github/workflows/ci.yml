@@ -2,13 +2,13 @@ name: CI NestJS
 
 on:
   push:
-    branches: 
-    - develop
-    - main
+    branches:
+      - develop
+      - main
   pull_request:
-    branches: 
-    - develop
-    - main
+    branches:
+      - develop
+      - main
 
 jobs:
   build-and-test:
@@ -30,10 +30,13 @@ jobs:
           cache-dependency-path: beckendsbo/package-lock.json
 
       - name: Install dependencies
+        working-directory: beckendsbo
         run: npm ci
 
       - name: Build aplikasi
+        working-directory: beckendsbo
         run: npm run build
 
       - name: Jalankan unit test
+        working-directory: beckendsbo
         run: npm test
