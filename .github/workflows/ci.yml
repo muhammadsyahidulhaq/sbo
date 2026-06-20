@@ -2,7 +2,7 @@ name: CI NestJS
 
 on:
   push:
-<<<<<<< HEAD
+
     branches: 
     - develop
     - main
@@ -19,7 +19,6 @@ on:
     branches:
       - develop
       - main
->>>>>>> 169abdd814f4a1c7e2e0ec4accc26bef520d5a68
 
 jobs:
   build-and-test:
@@ -36,13 +35,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-<<<<<<< HEAD
           node-version: '24'
           cache: 'npm'
           cache-dependency-path: beckendsbo/package-lock.json
-=======
+
           node-version: 22
->>>>>>> 169abdd814f4a1c7e2e0ec4accc26bef520d5a68
 
       - name: Install dependencies
         run: npm ci
