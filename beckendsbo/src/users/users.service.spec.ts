@@ -1,29 +1,31 @@
-import { Injectable } from '@nestjs/common';
-import { randomUUID } from 'crypto';
+import { Test, TestingModule } from '@nestjs/testing';
+import { UsersService } from './users.service';
+import { PrismaService } from '../prisma/prisma.service';
+describe('UsersService', () => {
+  let service: UsersService;
 
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-};
+  const mockPrisma = {
+    user: {
+      findUnique: jest.fn(),
+      create: jest.fn(),
+    },
+  };
 
-@Injectable()
-export class UsersService {
-  private users: User[] = []; // 🔥 FIX UTAMA
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        UsersService,
+        {
+          provide: PrismaService,
+          useValue: mockPrisma,
+        },
+      ],
+    }).compile();
 
-  async create(data: Omit<User, 'id'>) {
-    const user: User = {
-      id: randomUUID(),
-      ...data,
-    };
+    service = module.get<UsersService>(UsersService);
+  });
 
-    this.users.push(user);
-
-    return user;
-  }
-
-  async findByEmail(email: string) {
-    return this.users.find((u) => u.email === email);
-  }
-}
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
