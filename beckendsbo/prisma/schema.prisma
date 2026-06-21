@@ -1,13 +1,183 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum InviteStatus {
+  PENDING
+  USED
+  EXPIRED
+}
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  password    String
+  avatarUrl   String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  organizationsCreated Organization[] @relation("OrganizationOwner")
+
+  memberships Membership[]
+
+  invitesCreated Invite[] @relation("InviteCreator")
+
+  @@map("users")
+}
+
+model Organization {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  logoUrl     String?
+
+  ownerId     String
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner User @relation(
+    "OrganizationOwner",
+    fields: [ownerId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  memberships Membership[]
+
+  roles Role[]
+
+  invites Invite[]
+
+  @@map("organizations")
+}
+
+model Membership {
+  id             String @id @default(uuid())
+
+  userId         String
+  organizationId String
+  roleId         String
+
+  joinedAt       DateTime @default(now())
+
+  user User @relation(
+    fields: [userId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  organization Organization @relation(
+    fields: [organizationId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  role Role @relation(
+    fields: [roleId],
+    references: [id],
+    onDelete: Restrict
+  )
+
+  @@unique([userId, organizationId])
+
+  @@map("memberships")
+}
+
+model Role {
+  id             String @id @default(uuid())
+
+  organizationId String
+
+  name           String
+  description    String?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(
+    fields: [organizationId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  memberships Membership[]
+
+  rolePermissions RolePermission[]
+
+  @@unique([organizationId, name])
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String @id @default(uuid())
+
+  code        String @unique
+  name        String
+  description String?
+
+  createdAt   DateTime @default(now())
+
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+
+  role Role @relation(
+    fields: [roleId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  permission Permission @relation(
+    fields: [permissionId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  @@id([roleId, permissionId])
+
+  @@map("role_permissions")
+}
+
+model Invite {
+  id             String @id @default(uuid())
+
+  organizationId String
+  createdById    String
+
+  token          String @unique
+
+  status         InviteStatus @default(PENDING)
+
+  expiredAt      DateTime
+
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(
+    fields: [organizationId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  createdBy User @relation(
+    "InviteCreator",
+    fields: [createdById],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  @@map("invites")
 }
