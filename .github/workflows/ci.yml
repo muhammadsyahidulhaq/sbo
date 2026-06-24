@@ -1,17 +1,19 @@
-name: CI NestJS
+name: CI Fullstack
 
 on:
   push:
     branches:
       - develop
       - main
+
   pull_request:
     branches:
       - develop
       - main
 
 jobs:
-  build-and-test:
+  backend:
+    name: Backend NestJS
     runs-on: ubuntu-latest
 
     defaults:
@@ -19,24 +21,52 @@ jobs:
         working-directory: beckendsbo
 
     steps:
-      - name: Checkout kode
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          cache: 'npm'
+          node-version: 24
+          cache: npm
           cache-dependency-path: beckendsbo/package-lock.json
 
-      - name: Install dependencies
-        working-directory: beckendsbo
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Build aplikasi
-        working-directory: beckendsbo
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Build Backend
         run: npm run build
 
-      - name: Jalankan unit test
-        working-directory: beckendsbo
-        run: npm test
+      - name: Run Backend Tests
+        run: npm test -- --runInBand
+
+  frontend:
+    name: Frontend React
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Lint Frontend
+        run: npm run lint
+
+      - name: Build Frontend
+        run: npm run build

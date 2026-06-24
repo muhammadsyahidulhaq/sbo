@@ -16,9 +16,15 @@ async function bootstrap() {
         forbidNonWhitelisted: true,
     }));
     const config = new swagger_1.DocumentBuilder()
-        .setTitle('Auth API')
+        .setTitle('Organization API')
+        .setDescription('API Documentation')
         .setVersion('1.0')
-        .addBearerAuth()
+        .addBearerAuth({
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        in: 'header',
+    }, 'JWT-auth')
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);
     swagger_1.SwaggerModule.setup('api', app, document);

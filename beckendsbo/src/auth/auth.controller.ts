@@ -9,7 +9,9 @@ import {
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+  @ApiBearerAuth('JWT-auth')
 @Controller('auth')
 export class AuthController {
   constructor(
