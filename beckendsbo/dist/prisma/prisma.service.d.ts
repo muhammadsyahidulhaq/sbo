@@ -1,2 +1,3 @@
-export declare class PrismaService {
+import { PrismaClient } from '@prisma/client';
+export declare class PrismaService extends PrismaClient {
 }
