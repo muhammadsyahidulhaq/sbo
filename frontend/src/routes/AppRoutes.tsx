@@ -10,8 +10,7 @@ from '../pages/dashboard/MembersPage';
 
 import InvitesPage
 from '../pages/dashboard/InvitesPage';
-import JoinOrganizationPage
-from '../pages/onboarding/JoinOrganizationPage';
+
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
 
@@ -56,12 +55,7 @@ export default function AppRoutes() {
         }
         />
 
-        <Route
-        path="/organizations/join"
-        element={
-            <JoinOrganizationPage />
-        }
-        />
+        
 
         <Route
         path="/members"
@@ -72,12 +66,7 @@ export default function AppRoutes() {
         path="/invites"
         element={<InvitesPage />}
         />
-        <Route
-        path="/join/:token"
-        element={
-            <JoinOrganizationPage />
-        }
-        />
+       
       </Routes>
     </BrowserRouter>
   );

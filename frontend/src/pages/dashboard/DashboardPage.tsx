@@ -76,7 +76,7 @@ interface Organization {
       }
     };
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    
   useEffect(() => {
    void loadData();
   }, []);

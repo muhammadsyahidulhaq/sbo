@@ -13,14 +13,23 @@ import {
 } from '../../api/organization.service';
 
 export default function InvitesPage() {
-  const [email, setEmail] =
+    interface Invite {
+  id: string;
+  email: string;
+  status: string;
+  organization?: {
+    name: string;
+  };
+}
+
+    const [email, setEmail] =
     useState('');
 
   const [loading, setLoading] =
     useState(false);
 
   const [invites, setInvites] =
-    useState<any[]>([]);
+  useState<Invite[]>([]);
 
   const loadInvites =
     async () => {
@@ -38,7 +47,7 @@ export default function InvitesPage() {
       }
     };
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    
   useEffect(() => {
   void  loadInvites();
   }, []);
