@@ -3,7 +3,17 @@ import api from '../../api/axios';
 import DashboardLayout from '../../layouts/DashboardLayout';
 
 export default function MembersPage() {
-  const [members, setMembers] = useState<any[]>([]);
+  interface Member {
+  id: string;
+  user?: {
+    name: string;
+  };
+  role?: {
+    name: string;
+  };
+}
+const [members, setMembers] =
+  useState<Member[]>([]);
 
   const load = async () => {
     const res = await api.get('/auth/me');
@@ -13,6 +23,7 @@ export default function MembersPage() {
     setMembers(org?.memberships || []);
   };
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
    void load();
   }, []);

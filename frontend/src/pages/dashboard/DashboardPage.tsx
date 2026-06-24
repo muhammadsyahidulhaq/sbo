@@ -11,14 +11,31 @@ import {
 } from '../../api/organization.service';
 
 export default function DashboardPage() {
+interface Member {
+  id: string;
+  user?: {
+    name: string;
+  };
+  role?: {
+    name: string;
+  };
+}
 
-  const [organization,
-    setOrganization,
-  ] = useState<any>(null);
+interface Organization {
+  id: string;
+  name: string;
+  description?: string;
+  owner?: {
+    name: string;
+  };
+}
+
+  const [organization, setOrganization] =
+  useState<Organization | null>(null);
 
   const [members,
     setMembers,
-  ] = useState<any[]>([]);
+  ] = useState<Member[]>([]);
 
   const loadData =
     async () => {
@@ -59,6 +76,7 @@ export default function DashboardPage() {
       }
     };
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
    void loadData();
   }, []);

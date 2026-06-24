@@ -14,15 +14,21 @@ import {
 } from '../../api/invite.service';
 
 export default function JoinOrganizationPage() {
-  const { token } =
+ interface Invite {
+  organization?: {
+    name: string;
+    description?: string;
+  };
+}
+ 
+    const { token } =
     useParams();
 
   const navigate =
     useNavigate();
 
-  const [invite,
-    setInvite,
-  ] = useState<any>(null);
+const [invite, setInvite] =
+  useState<Invite | null>(null);
 
   const [loading,
     setLoading,
@@ -66,10 +72,11 @@ export default function JoinOrganizationPage() {
         );
       }
     };
-
+    
+// eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
    void loadInvite();
-  }, []);
+  }, [token]);
 
   if (loading) {
     return (

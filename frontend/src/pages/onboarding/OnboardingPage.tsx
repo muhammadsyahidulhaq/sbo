@@ -5,13 +5,31 @@ import api from '../../api/axios';
 import { acceptInvite } from '../../api/invite.service';
 
 export default function OnboardingPage() {
-  const navigate = useNavigate();
+  interface Membership {
+  id: string;
+}
+
+interface MeResponse {
+  memberships?: Membership[];
+}
+
+interface Invite {
+  id: string;
+  status: string;
+  organization?: {
+    name: string;
+  };
+}
+  
+    const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
 
-  const [me, setMe] = useState<any>(null);
+const [me, setMe] =
+  useState<MeResponse | null>(null);
 
-  const [invites, setInvites] = useState<any[]>([]);
+const [invites, setInvites] =
+  useState<Invite[]>([]);
 
   const load = async () => {
     try {
@@ -46,6 +64,7 @@ export default function OnboardingPage() {
     }
   };
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
    void load();
   }, []);
