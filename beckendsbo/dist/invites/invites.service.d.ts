@@ -5,48 +5,48 @@ export declare class InvitesService {
     validateInvite(token: string): Promise<{
         organization: {
             id: string;
-            createdAt: Date;
             name: string;
+            createdAt: Date;
+            updatedAt: Date;
             description: string | null;
             logoUrl: string | null;
             ownerId: string;
-            updatedAt: Date;
         };
     } & {
         id: string;
-        token: string;
-        organizationId: string;
-        createdById: string;
         email: string;
+        createdAt: Date;
+        organizationId: string;
+        token: string;
         status: import("@prisma/client").$Enums.InviteStatus;
         expiredAt: Date;
-        createdAt: Date;
+        createdById: string;
     }>;
     join(token: string, userId: string): Promise<{
         id: string;
-        organizationId: string;
-        joinedAt: Date;
         userId: string;
+        organizationId: string;
         roleId: string;
+        joinedAt: Date;
     }>;
     findMyInvites(userEmail: string): import("@prisma/client").Prisma.PrismaPromise<({
         organization: {
             id: string;
-            createdAt: Date;
             name: string;
+            createdAt: Date;
+            updatedAt: Date;
             description: string | null;
             logoUrl: string | null;
             ownerId: string;
-            updatedAt: Date;
         };
     } & {
         id: string;
-        token: string;
-        organizationId: string;
-        createdById: string;
         email: string;
+        createdAt: Date;
+        organizationId: string;
+        token: string;
         status: import("@prisma/client").$Enums.InviteStatus;
         expiredAt: Date;
-        createdAt: Date;
+        createdById: string;
     })[]>;
 }

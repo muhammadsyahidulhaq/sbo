@@ -22,18 +22,27 @@ let InvitesController = class InvitesController {
     constructor(invitesService) {
         this.invitesService = invitesService;
     }
+    getMyInvites(req) {
+        return this.invitesService.findMyInvites(req.user.email);
+    }
     validate(token) {
         return this.invitesService.validateInvite(token);
     }
     join(token, req) {
         return this.invitesService.join(token, req.user.userId);
     }
-    getMyInvites(req) {
-        return this.invitesService.findMyInvites(req.user.email);
-    }
 };
 exports.InvitesController = InvitesController;
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('my'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], InvitesController.prototype, "getMyInvites", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(':token'),
     __param(0, (0, common_1.Param)('token')),
     __metadata("design:type", Function),
@@ -50,14 +59,8 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], InvitesController.prototype, "join", null);
-__decorate([
-    (0, common_1.Get)('my'),
-    __param(0, (0, common_1.Req)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], InvitesController.prototype, "getMyInvites", null);
 exports.InvitesController = InvitesController = __decorate([
+    (0, swagger_1.ApiBearerAuth)('JWT-auth'),
     (0, swagger_1.ApiTags)('Invites'),
     (0, common_1.Controller)('invites'),
     __metadata("design:paramtypes", [invites_service_1.InvitesService])

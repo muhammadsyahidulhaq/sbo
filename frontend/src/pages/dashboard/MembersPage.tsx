@@ -1,50 +1,34 @@
-import DashboardLayout
-from '../../layouts/DashboardLayout';
 import { useEffect, useState } from 'react';
 import api from '../../api/axios';
+import DashboardLayout from '../../layouts/DashboardLayout';
 
 export default function MembersPage() {
-
-
-
   const [members, setMembers] = useState<any[]>([]);
 
-  const loadMembers = async () => {
-    try {
-      const res = await api.get('/auth/me');
+  const load = async () => {
+    const res = await api.get('/auth/me');
 
-      const org =
-        res.data.memberships?.[0]?.organization;
+    const org = res.data.memberships?.[0]?.organization;
 
-      setMembers(org?.memberships || []);
-    } catch (err) {
-      console.error(err);
-    }
+    setMembers(org?.memberships || []);
   };
 
   useEffect(() => {
-    loadMembers();
+    load();
   }, []);
 
   return (
     <DashboardLayout>
-      
-
-    <div style={{ padding: 20 }}>
+    <div>
       <h1>Members</h1>
 
-      {members.length === 0 ? (
-        <p>Belum ada member</p>
-      ) : (
-        members.map((m) => (
-          <div key={m.id}>
-            <p>{m.user?.name}</p>
-            <p>{m.role?.name}</p>
-          </div>
-        ))
-      )}
+      {members.map((m) => (
+        <div key={m.id}>
+          <p>{m.user?.name}</p>
+          <p>{m.role?.name}</p>
+        </div>
+      ))}
     </div>
-  
-    </DashboardLayout>
-  );
+  </DashboardLayout>
+);
 }

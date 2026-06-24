@@ -13,6 +13,8 @@ import { InvitesService } from './invites.service';
 
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiBearerAuth('JWT-auth')
+
 @ApiTags('Invites')
 @Controller('invites')
 export class InvitesController {
@@ -20,6 +22,14 @@ export class InvitesController {
     private readonly invitesService: InvitesService,
   ) {}
 
+@UseGuards(JwtAuthGuard)
+   @Get('my')
+getMyInvites(@Req() req: any) {
+  return this.invitesService.findMyInvites(
+    req.user.email,
+  );
+}
+@UseGuards(JwtAuthGuard)
   @Get(':token')
   validate(
     @Param('token') token: string,
@@ -41,10 +51,7 @@ export class InvitesController {
       req.user.userId,
     );
   }
-  @Get('my')
-getMyInvites(@Req() req: any) {
-  return this.invitesService.findMyInvites(
-    req.user.email,
-  );
-}
+ 
+
+
 }

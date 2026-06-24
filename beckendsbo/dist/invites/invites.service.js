@@ -36,11 +36,14 @@ let InvitesService = class InvitesService {
         return invite;
     }
     async join(token, userId) {
+        console.log('🔥 TOKEN:', token);
+        console.log('🔥 USER ID:', userId);
         const invite = await this.prisma.invite.findUnique({
             where: {
                 token,
             },
         });
+        console.log('🔥 INVITE:', invite);
         if (!invite) {
             throw new common_1.NotFoundException('Invite tidak ditemukan');
         }
@@ -56,6 +59,7 @@ let InvitesService = class InvitesService {
                 name: 'MEMBER',
             },
         });
+        console.log('🔥 MEMBER ROLE:', memberRole);
         const existingMembership = await this.prisma.membership.findFirst({
             where: {
                 userId,

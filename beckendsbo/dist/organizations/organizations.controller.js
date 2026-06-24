@@ -60,6 +60,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrganizationsController.prototype, "create", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -74,6 +75,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrganizationsController.prototype, "findMyOrganizations", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(':id/members'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -81,8 +83,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrganizationsController.prototype, "getMembers", null);
 __decorate([
-    (0, common_1.Post)(':id/invite'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)(':id/invites'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
     __param(2, (0, common_1.Body)()),
@@ -91,6 +93,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrganizationsController.prototype, "createInvite", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(':id/roles'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -98,6 +101,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrganizationsController.prototype, "getRoles", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)('invites/:id/accept'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
@@ -106,6 +110,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrganizationsController.prototype, "acceptInvite", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -114,6 +119,7 @@ __decorate([
 ], OrganizationsController.prototype, "findOne", null);
 exports.OrganizationsController = OrganizationsController = __decorate([
     (0, swagger_1.ApiBearerAuth)('JWT-auth'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Controller)('organizations'),
     __metadata("design:paramtypes", [organizations_service_1.OrganizationsService])
 ], OrganizationsController);

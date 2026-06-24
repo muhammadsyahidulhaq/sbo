@@ -16,6 +16,7 @@ import {
 } from '@nestjs/swagger';
 
   @ApiBearerAuth('JWT-auth')
+  @UseGuards(JwtAuthGuard)
 @Controller('organizations')
 export class OrganizationsController {
   constructor(
@@ -33,7 +34,7 @@ create(
     dto,
   );
 }
-
+@UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.organizationsService.findAll();
@@ -51,7 +52,7 @@ findMyOrganizations(
 }
 
 
-
+@UseGuards(JwtAuthGuard)
 @Get(':id/members')
 getMembers(
   @Param('id') id: string,
@@ -61,9 +62,8 @@ getMembers(
   );
 }
 
-
-@Post(':id/invite')
 @UseGuards(JwtAuthGuard)
+@Post(':id/invites')
 createInvite(
   @Param('id') organizationId: string,
   @Req() req: any,
@@ -72,10 +72,12 @@ createInvite(
   return this.organizationsService.createInvite(
     organizationId,
     req.user.userId,
-    body.email, 
+    body.email,
   );
 }
 
+
+@UseGuards(JwtAuthGuard)
 @Get(':id/roles')
 getRoles(
   @Param('id') id: string,
@@ -84,7 +86,7 @@ getRoles(
     id,
   );
 }
-
+@UseGuards(JwtAuthGuard)
 @Post('invites/:id/accept')
 acceptInvite(
   @Param('id') inviteId: string,
@@ -95,7 +97,7 @@ acceptInvite(
     req.user.userId,
   );
 }
-
+@UseGuards(JwtAuthGuard)
 @Get(':id')
 findOne(
   @Param('id') id: string,

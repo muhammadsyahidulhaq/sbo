@@ -11,6 +11,7 @@ import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
+  [x: string]: any;
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
@@ -66,7 +67,7 @@ export class AuthService {
         }),
     };
   }
-    async me(userId: string) {
-    return this.usersService.findById(userId);
-  }
+    async getMe(userId: string) {
+  return this.usersService.findById(userId);
+}
 }

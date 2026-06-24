@@ -13,14 +13,6 @@ export declare class UsersService {
     } | null>;
     findById(id: string): import("@prisma/client").Prisma.Prisma__UserClient<({
         memberships: ({
-            role: {
-                id: string;
-                name: string;
-                createdAt: Date;
-                updatedAt: Date;
-                organizationId: string;
-                description: string | null;
-            };
             organization: {
                 memberships: ({
                     user: {
@@ -37,8 +29,8 @@ export declare class UsersService {
                         name: string;
                         createdAt: Date;
                         updatedAt: Date;
-                        organizationId: string;
                         description: string | null;
+                        organizationId: string;
                     };
                 } & {
                     id: string;
@@ -55,6 +47,14 @@ export declare class UsersService {
                 description: string | null;
                 logoUrl: string | null;
                 ownerId: string;
+            };
+            role: {
+                id: string;
+                name: string;
+                createdAt: Date;
+                updatedAt: Date;
+                description: string | null;
+                organizationId: string;
             };
         } & {
             id: string;

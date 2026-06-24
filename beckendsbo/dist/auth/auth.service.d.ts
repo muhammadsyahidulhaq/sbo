@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 export declare class AuthService {
     private usersService;
     private jwtService;
+    [x: string]: any;
     constructor(usersService: UsersService, jwtService: JwtService);
     register(name: string, email: string, password: string): Promise<{
         id: string;
@@ -16,16 +17,8 @@ export declare class AuthService {
     login(email: string, password: string): Promise<{
         access_token: string;
     }>;
-    me(userId: string): Promise<({
+    getMe(userId: string): Promise<({
         memberships: ({
-            role: {
-                id: string;
-                name: string;
-                createdAt: Date;
-                updatedAt: Date;
-                organizationId: string;
-                description: string | null;
-            };
             organization: {
                 memberships: ({
                     user: {
@@ -42,8 +35,8 @@ export declare class AuthService {
                         name: string;
                         createdAt: Date;
                         updatedAt: Date;
-                        organizationId: string;
                         description: string | null;
+                        organizationId: string;
                     };
                 } & {
                     id: string;
@@ -60,6 +53,14 @@ export declare class AuthService {
                 description: string | null;
                 logoUrl: string | null;
                 ownerId: string;
+            };
+            role: {
+                id: string;
+                name: string;
+                createdAt: Date;
+                updatedAt: Date;
+                description: string | null;
+                organizationId: string;
             };
         } & {
             id: string;

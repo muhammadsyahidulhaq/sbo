@@ -47,12 +47,15 @@ export class InvitesService {
   token: string,
   userId: string,
 ) {
+      console.log('🔥 TOKEN:', token);
+  console.log('🔥 USER ID:', userId);
   const invite =
     await this.prisma.invite.findUnique({
       where: {
         token,
       },
     });
+     console.log('🔥 INVITE:', invite);
 
     if (!invite) {
   throw new NotFoundException(
@@ -81,6 +84,10 @@ if (invite.expiredAt < new Date()) {
         name: 'MEMBER',
       },
     });
+    console.log(
+  '🔥 MEMBER ROLE:',
+  memberRole,
+);
     const existingMembership =
   await this.prisma.membership.findFirst({
     where: {

@@ -1,16 +1,18 @@
 import api from './axios';
 
-export const createInvite = async (
-  organizationId: string,
-  email: string,
-) => {
-  const res = await api.post(
-    `/organizations/${organizationId}/invite`,
-    { email },
-  );
+export const createInvite =
+  async (
+    organizationId: string,
+    email: string,
+  ) => {
+    const res =
+      await api.post(
+        `/organizations/${organizationId}/invites`,
+        { email },
+      );
 
-  return res.data;
-};
+    return res.data;
+  };
 
 export const validateInvite = async (
   token: string,
