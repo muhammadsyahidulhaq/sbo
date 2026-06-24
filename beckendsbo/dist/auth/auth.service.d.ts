@@ -16,4 +16,9 @@ export declare class AuthService {
     login(email: string, password: string): Promise<{
         access_token: string;
     }>;
+    me(userId: string): Promise<{
+        id: string;
+        email: string;
+        name: string;
+    } | null>;
 }

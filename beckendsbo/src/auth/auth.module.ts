@@ -11,21 +11,21 @@ import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
-    ConfigModule,
+  ConfigModule,
 
-    UsersModule,
+  UsersModule,
 
-    PassportModule.register({
-      defaultStrategy: 'jwt',
-    }),
+  PassportModule.register({
+    defaultStrategy: 'jwt',
+  }),
 
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: {
-        expiresIn: '1d',
-      },
-    }),
-  ],
+  JwtModule.register({
+    secret: 'SECRET_KEY',
+    signOptions: {
+      expiresIn: '1d',
+    },
+  }),
+],
   controllers: [
     AuthController,
   ],
@@ -34,5 +34,8 @@ import { UsersModule } from '../users/users.module';
     JwtStrategy,
   ],
 })
-export class AuthModule {}
-
+export class AuthModule {
+  constructor() {
+    console.log('🔥 AUTH MODULE LOADED');
+  }
+}

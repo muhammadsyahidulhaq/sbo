@@ -78,6 +78,9 @@ let AuthService = class AuthService {
             }),
         };
     }
+    async me(userId) {
+        return this.usersService.findById(userId);
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

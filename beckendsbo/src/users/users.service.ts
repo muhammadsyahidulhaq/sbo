@@ -12,10 +12,16 @@ export class UsersService {
   }
 
   async findById(id: string) {
-    return this.prisma.user.findUnique({
-      where: { id },
-    });
-  }
+  return this.prisma.user.findUnique({
+    where: { id },
+
+    select: {
+      id: true,
+      name: true,
+      email: true,
+    },
+  });
+}
 
   async create(data: { name: string; email: string; password: string }) {
     return this.prisma.user.create({

@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const common_1 = require("@nestjs/common");
@@ -16,6 +19,9 @@ const auth_service_1 = require("./auth.service");
 const jwt_strategy_1 = require("./jwt.strategy");
 const users_module_1 = require("../users/users.module");
 let AuthModule = class AuthModule {
+    constructor() {
+        console.log('🔥 AUTH MODULE LOADED');
+    }
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
@@ -27,7 +33,7 @@ exports.AuthModule = AuthModule = __decorate([
                 defaultStrategy: 'jwt',
             }),
             jwt_1.JwtModule.register({
-                secret: process.env.JWT_SECRET,
+                secret: 'SECRET_KEY',
                 signOptions: {
                     expiresIn: '1d',
                 },
@@ -40,6 +46,7 @@ exports.AuthModule = AuthModule = __decorate([
             auth_service_1.AuthService,
             jwt_strategy_1.JwtStrategy,
         ],
-    })
+    }),
+    __metadata("design:paramtypes", [])
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map
