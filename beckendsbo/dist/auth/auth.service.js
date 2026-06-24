@@ -78,7 +78,7 @@ let AuthService = class AuthService {
             }),
         };
     }
-    async me(userId) {
+    async getMe(userId) {
         return this.usersService.findById(userId);
     }
 };

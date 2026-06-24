@@ -6,8 +6,8 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(registerDto: RegisterDto): Promise<{
         id: string;
-        name: string;
         email: string;
+        name: string;
         password: string;
         avatarUrl: string | null;
         createdAt: Date;
@@ -16,9 +16,65 @@ export declare class AuthController {
     login(loginDto: LoginDto): Promise<{
         access_token: string;
     }>;
-    getMe(req: any): Promise<{
+    getMe(req: any): Promise<({
+        memberships: ({
+            organization: {
+                memberships: ({
+                    user: {
+                        id: string;
+                        email: string;
+                        name: string;
+                        password: string;
+                        avatarUrl: string | null;
+                        createdAt: Date;
+                        updatedAt: Date;
+                    };
+                    role: {
+                        id: string;
+                        name: string;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        description: string | null;
+                        organizationId: string;
+                    };
+                } & {
+                    id: string;
+                    userId: string;
+                    organizationId: string;
+                    roleId: string;
+                    joinedAt: Date;
+                })[];
+            } & {
+                id: string;
+                name: string;
+                createdAt: Date;
+                updatedAt: Date;
+                description: string | null;
+                logoUrl: string | null;
+                ownerId: string;
+            };
+            role: {
+                id: string;
+                name: string;
+                createdAt: Date;
+                updatedAt: Date;
+                description: string | null;
+                organizationId: string;
+            };
+        } & {
+            id: string;
+            userId: string;
+            organizationId: string;
+            roleId: string;
+            joinedAt: Date;
+        })[];
+    } & {
         id: string;
-        name: string;
         email: string;
-    } | null>;
+        name: string;
+        password: string;
+        avatarUrl: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+    }) | null>;
 }

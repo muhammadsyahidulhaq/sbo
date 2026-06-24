@@ -56,4 +56,64 @@ export declare class OrganizationsController {
         roleId: string;
         joinedAt: Date;
     })[]>;
+    getMembers(id: string): Promise<({
+        user: {
+            id: string;
+            name: string;
+            email: string;
+            avatarUrl: string | null;
+        };
+        role: {
+            id: string;
+            name: string;
+            description: string | null;
+            createdAt: Date;
+            updatedAt: Date;
+            organizationId: string;
+        };
+    } & {
+        id: string;
+        userId: string;
+        organizationId: string;
+        roleId: string;
+        joinedAt: Date;
+    })[]>;
+    createInvite(organizationId: string, req: any, body: {
+        email: string;
+    }): Promise<{
+        id: string;
+        createdAt: Date;
+        email: string;
+        organizationId: string;
+        token: string;
+        status: import("@prisma/client").$Enums.InviteStatus;
+        expiredAt: Date;
+        createdById: string;
+    }>;
+    getRoles(id: string): Promise<{
+        id: string;
+        name: string;
+        description: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        organizationId: string;
+    }[]>;
+    acceptInvite(inviteId: string, req: any): Promise<{
+        message: string;
+    }>;
+    findOne(id: string): Promise<({
+        owner: {
+            id: string;
+            name: string;
+            email: string;
+        };
+    } & {
+        id: string;
+        name: string;
+        description: string | null;
+        logoUrl: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        ownerId: string;
+    }) | null>;
 }

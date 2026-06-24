@@ -1,30 +1,55 @@
 import { useState } from 'react';
-import { api } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { login } from '../../api/auth.service';
+import { getMyOrganizations } from '../../api/organization.service';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  const [email, setEmail] =
+    useState('');
+
+  const [password, setPassword] =
+    useState('');
+
+  const [loading, setLoading] =
+    useState(false);
 
   const handleLogin = async () => {
     try {
-      const response = await api.post('/auth/login', {
-  email,
-  password,
-});
+      setLoading(true);
 
-localStorage.setItem(
-  'token',
-  response.data.access_token,
-);
+      const response =
+        await login(
+          email,
+          password,
+        );
 
-navigate('/dashboard');
+      localStorage.setItem(
+        'token',
+        response.access_token,
+      );
 
-      alert('Login berhasil');
+
+      const organizations =
+        await getMyOrganizations();
+
+      if (
+        organizations.length === 0
+      ) {
+        navigate('/onboarding');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (error) {
       console.error(error);
-      alert('Login gagal');
+
+      alert(
+        'Email atau password salah',
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,10 +62,13 @@ navigate('/dashboard');
         placeholder="Email"
         value={email}
         onChange={(e) =>
-          setEmail(e.target.value)
+          setEmail(
+            e.target.value,
+          )
         }
       />
 
+      <br />
       <br />
 
       <input
@@ -48,15 +76,33 @@ navigate('/dashboard');
         placeholder="Password"
         value={password}
         onChange={(e) =>
-          setPassword(e.target.value)
+          setPassword(
+            e.target.value,
+          )
         }
       />
 
       <br />
+      <br />
 
-      <button onClick={handleLogin}>
-        Login
+      <button
+        onClick={handleLogin}
+        disabled={loading}
+      >
+        {loading
+          ? 'Loading...'
+          : 'Login'}
       </button>
+
+      <br />
+      <br />
+
+      <Link to="/register">
+        Belum punya akun?
+        Register
+      </Link>
     </div>
+    
   );
+  
 }
