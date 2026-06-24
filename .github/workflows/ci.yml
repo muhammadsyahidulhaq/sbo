@@ -18,7 +18,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: bbeckendsbo
+        working-directory: beckendsbo
 
     steps:
       - name: Checkout Repository
