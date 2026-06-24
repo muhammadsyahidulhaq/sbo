@@ -25,6 +25,11 @@ let UsersService = class UsersService {
     async findById(id) {
         return this.prisma.user.findUnique({
             where: { id },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+            },
         });
     }
     async create(data) {

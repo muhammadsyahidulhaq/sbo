@@ -66,4 +66,7 @@ export class AuthService {
         }),
     };
   }
+    async me(userId: string) {
+    return this.usersService.findById(userId);
+  }
 }

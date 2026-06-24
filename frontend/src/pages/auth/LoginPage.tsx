@@ -1,23 +1,25 @@
 import { useState } from 'react';
 import { api } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       const response = await api.post('/auth/login', {
-        email,
-        password,
-      });
+  email,
+  password,
+});
 
-      console.log(response.data);
+localStorage.setItem(
+  'token',
+  response.data.access_token,
+);
 
-      localStorage.setItem(
-        'token',
-        response.data.access_token,
-      );
+navigate('/dashboard');
 
       alert('Login berhasil');
     } catch (error) {

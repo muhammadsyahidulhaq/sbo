@@ -15,10 +15,6 @@ export declare class UsersService {
         id: string;
         email: string;
         name: string;
-        password: string;
-        avatarUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
     } | null>;
     create(data: {
         name: string;

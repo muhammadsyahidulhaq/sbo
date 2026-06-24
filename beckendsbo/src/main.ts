@@ -20,10 +20,19 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Auth API')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
+  .setTitle('Organization API')
+  .setDescription('API Documentation')
+  .setVersion('1.0')
+  .addBearerAuth(
+    {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      in: 'header',
+    },
+    'JWT-auth',
+  )
+  .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
