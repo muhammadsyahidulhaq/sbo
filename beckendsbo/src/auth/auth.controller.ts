@@ -11,15 +11,18 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  register(
-    @Body() registerDto: RegisterDto,
-  ) {
-    return this.authService.register(
-      registerDto.name,
-      registerDto.email,
-      registerDto.password,
-    );
-  }
+register(
+  @Body() registerDto: RegisterDto,
+) {
+  console.log('REGISTER HIT');
+  console.log(registerDto);
+
+  return this.authService.register(
+    registerDto.name,
+    registerDto.email,
+    registerDto.password,
+  );
+}
 
   @Post('login')
   login(

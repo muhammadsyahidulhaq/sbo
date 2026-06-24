@@ -23,6 +23,8 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     register(registerDto) {
+        console.log('REGISTER HIT');
+        console.log(registerDto);
         return this.authService.register(registerDto.name, registerDto.email, registerDto.password);
     }
     login(loginDto) {
