@@ -6,47 +6,47 @@ export declare class OrganizationsController {
     create(req: any, dto: CreateOrganizationDto): Promise<{
         id: string;
         name: string;
-        description: string | null;
-        logoUrl: string | null;
         createdAt: Date;
         updatedAt: Date;
+        description: string | null;
+        logoUrl: string | null;
         ownerId: string;
     }>;
     findAll(): Promise<({
         owner: {
             id: string;
-            name: string;
-            createdAt: Date;
-            updatedAt: Date;
             email: string;
+            name: string;
             password: string;
             avatarUrl: string | null;
+            createdAt: Date;
+            updatedAt: Date;
         };
     } & {
         id: string;
         name: string;
-        description: string | null;
-        logoUrl: string | null;
         createdAt: Date;
         updatedAt: Date;
+        description: string | null;
+        logoUrl: string | null;
         ownerId: string;
     })[]>;
     findMyOrganizations(req: any): Promise<({
         organization: {
             id: string;
             name: string;
-            description: string | null;
-            logoUrl: string | null;
             createdAt: Date;
             updatedAt: Date;
+            description: string | null;
+            logoUrl: string | null;
             ownerId: string;
         };
         role: {
             id: string;
             name: string;
-            description: string | null;
             createdAt: Date;
             updatedAt: Date;
+            description: string | null;
             organizationId: string;
         };
     } & {
@@ -59,16 +59,16 @@ export declare class OrganizationsController {
     getMembers(id: string): Promise<({
         user: {
             id: string;
-            name: string;
             email: string;
+            name: string;
             avatarUrl: string | null;
         };
         role: {
             id: string;
             name: string;
-            description: string | null;
             createdAt: Date;
             updatedAt: Date;
+            description: string | null;
             organizationId: string;
         };
     } & {
@@ -82,8 +82,8 @@ export declare class OrganizationsController {
         email: string;
     }): Promise<{
         id: string;
-        createdAt: Date;
         email: string;
+        createdAt: Date;
         organizationId: string;
         token: string;
         status: import("@prisma/client").$Enums.InviteStatus;
@@ -93,9 +93,9 @@ export declare class OrganizationsController {
     getRoles(id: string): Promise<{
         id: string;
         name: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
+        description: string | null;
         organizationId: string;
     }[]>;
     acceptInvite(inviteId: string, req: any): Promise<{
@@ -104,16 +104,16 @@ export declare class OrganizationsController {
     findOne(id: string): Promise<({
         owner: {
             id: string;
-            name: string;
             email: string;
+            name: string;
         };
     } & {
         id: string;
         name: string;
-        description: string | null;
-        logoUrl: string | null;
         createdAt: Date;
         updatedAt: Date;
+        description: string | null;
+        logoUrl: string | null;
         ownerId: string;
     }) | null>;
 }
