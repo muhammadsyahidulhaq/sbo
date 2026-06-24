@@ -6,8 +6,8 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(registerDto: RegisterDto): Promise<{
         id: string;
-        name: string;
         email: string;
+        name: string;
         password: string;
         avatarUrl: string | null;
         createdAt: Date;
@@ -16,9 +16,5 @@ export declare class AuthController {
     login(loginDto: LoginDto): Promise<{
         access_token: string;
     }>;
-    getMe(req: any): Promise<{
-        id: string;
-        name: string;
-        email: string;
-    } | null>;
+    getMe(req: any): any;
 }

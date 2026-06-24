@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
@@ -22,13 +25,25 @@ let UsersService = class UsersService {
             where: { email },
         });
     }
-    async findById(id) {
+    findById(id) {
         return this.prisma.user.findUnique({
             where: { id },
-            select: {
-                id: true,
-                name: true,
-                email: true,
+            include: {
+                memberships: {
+                    include: {
+                        organization: {
+                            include: {
+                                memberships: {
+                                    include: {
+                                        user: true,
+                                        role: true,
+                                    },
+                                },
+                            },
+                        },
+                        role: true,
+                    },
+                },
             },
         });
     }
@@ -37,8 +52,25 @@ let UsersService = class UsersService {
             data,
         });
     }
+    async getMe(req) {
+        const userId = req.user.userId;
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                memberships: true,
+            },
+        });
+        return user;
+    }
 };
 exports.UsersService = UsersService;
+__decorate([
+    (0, common_1.Get)('me'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersService.prototype, "getMe", null);
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])

@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Req,
   UseGuards,
@@ -47,5 +48,58 @@ findMyOrganizations(
     .findMyOrganizations(
       req.user.userId,
     );
+}
+
+
+
+@Get(':id/members')
+getMembers(
+  @Param('id') id: string,
+) {
+  return this.organizationsService.getMembers(
+    id,
+  );
+}
+
+
+@Post(':id/invite')
+@UseGuards(JwtAuthGuard)
+createInvite(
+  @Param('id') organizationId: string,
+  @Req() req: any,
+  @Body() body: { email: string },
+) {
+  return this.organizationsService.createInvite(
+    organizationId,
+    req.user.userId,
+    body.email, 
+  );
+}
+
+@Get(':id/roles')
+getRoles(
+  @Param('id') id: string,
+) {
+  return this.organizationsService.getRoles(
+    id,
+  );
+}
+
+@Post('invites/:id/accept')
+acceptInvite(
+  @Param('id') inviteId: string,
+  @Req() req: any,
+) {
+  return this.organizationsService.acceptInvite(
+    inviteId,
+    req.user.userId,
+  );
+}
+
+@Get(':id')
+findOne(
+  @Param('id') id: string,
+) {
+  return this.organizationsService.findOne(id);
 }
 }

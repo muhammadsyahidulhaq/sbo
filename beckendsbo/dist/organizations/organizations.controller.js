@@ -33,6 +33,21 @@ let OrganizationsController = class OrganizationsController {
         return this.organizationsService
             .findMyOrganizations(req.user.userId);
     }
+    getMembers(id) {
+        return this.organizationsService.getMembers(id);
+    }
+    createInvite(organizationId, req, body) {
+        return this.organizationsService.createInvite(organizationId, req.user.userId, body.email);
+    }
+    getRoles(id) {
+        return this.organizationsService.getRoles(id);
+    }
+    acceptInvite(inviteId, req) {
+        return this.organizationsService.acceptInvite(inviteId, req.user.userId);
+    }
+    findOne(id) {
+        return this.organizationsService.findOne(id);
+    }
 };
 exports.OrganizationsController = OrganizationsController;
 __decorate([
@@ -58,6 +73,45 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], OrganizationsController.prototype, "findMyOrganizations", null);
+__decorate([
+    (0, common_1.Get)(':id/members'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], OrganizationsController.prototype, "getMembers", null);
+__decorate([
+    (0, common_1.Post)(':id/invite'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", void 0)
+], OrganizationsController.prototype, "createInvite", null);
+__decorate([
+    (0, common_1.Get)(':id/roles'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], OrganizationsController.prototype, "getRoles", null);
+__decorate([
+    (0, common_1.Post)('invites/:id/accept'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], OrganizationsController.prototype, "acceptInvite", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], OrganizationsController.prototype, "findOne", null);
 exports.OrganizationsController = OrganizationsController = __decorate([
     (0, swagger_1.ApiBearerAuth)('JWT-auth'),
     (0, common_1.Controller)('organizations'),

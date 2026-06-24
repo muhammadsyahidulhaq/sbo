@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrganizationsService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
+const crypto_1 = require("crypto");
 let OrganizationsService = class OrganizationsService {
     prisma;
     constructor(prisma) {
@@ -75,24 +76,97 @@ let OrganizationsService = class OrganizationsService {
             },
         });
     }
-    async findOne(id) {
-        return this.prisma.organization.findUnique({
-            where: { id },
-            include: {
-                owner: true,
-            },
-        });
-    }
     async getMembers(organizationId) {
         return this.prisma.membership.findMany({
             where: {
                 organizationId,
             },
             include: {
-                user: true,
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        avatarUrl: true,
+                    },
+                },
                 role: true,
             },
         });
+    }
+    async createInvite(organizationId, userId, email) {
+        return this.prisma.invite.create({
+            data: {
+                organizationId,
+                createdById: userId,
+                email: email.toLowerCase(),
+                token: (0, crypto_1.randomUUID)(),
+                status: 'PENDING',
+                expiredAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
+            },
+        });
+    }
+    async getRoles(organizationId) {
+        return this.prisma.role.findMany({
+            where: {
+                organizationId,
+            },
+            orderBy: {
+                name: 'asc',
+            },
+        });
+    }
+    async findOne(id) {
+        return this.prisma.organization.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                owner: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    },
+                },
+            },
+        });
+    }
+    async acceptInvite(inviteId, userId) {
+        const invite = await this.prisma.invite.findUnique({
+            where: { id: inviteId },
+        });
+        if (!invite) {
+            throw new Error('Invite tidak ditemukan');
+        }
+        if (invite.status !== 'PENDING') {
+            throw new Error('Invite sudah digunakan');
+        }
+        const role = await this.prisma.role.findFirst({
+            where: {
+                organizationId: invite.organizationId,
+                name: 'MEMBER',
+            },
+        });
+        if (!role) {
+            throw new Error('Role MEMBER tidak ditemukan');
+        }
+        await this.prisma.membership.create({
+            data: {
+                userId,
+                organizationId: invite.organizationId,
+                roleId: role.id,
+            },
+        });
+        await this.prisma.invite.update({
+            where: { id: inviteId },
+            data: {
+                status: 'USED',
+            },
+        });
+        return {
+            message: 'Berhasil join organisasi',
+        };
     }
 };
 exports.OrganizationsService = OrganizationsService;

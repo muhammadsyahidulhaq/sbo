@@ -31,8 +31,7 @@ let AuthController = class AuthController {
         return this.authService.login(loginDto.email, loginDto.password);
     }
     getMe(req) {
-        console.log('🔥 CONTROLLER ME', req.user);
-        return this.authService.me(req.user.userId);
+        return this.authService.getMe(req.user.userId);
     }
 };
 exports.AuthController = AuthController;

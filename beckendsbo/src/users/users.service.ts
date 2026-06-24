@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Get, Injectable, Req } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -11,14 +11,25 @@ export class UsersService {
     });
   }
 
-  async findById(id: string) {
+  findById(id: string) {
   return this.prisma.user.findUnique({
     where: { id },
-
-    select: {
-      id: true,
-      name: true,
-      email: true,
+    include: {
+      memberships: {
+        include: {
+          organization: {
+            include: {
+              memberships: {
+                include: {
+                  user: true,
+                  role: true,
+                },
+              },
+            },
+          },
+          role: true,
+        },
+      },
     },
   });
 }
@@ -28,4 +39,18 @@ export class UsersService {
       data,
     });
   }
+
+  @Get('me')
+async getMe(@Req() req: any) {
+  const userId = req.user.userId;
+
+  const user = await this.prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      memberships: true,
+    },
+  });
+
+  return user;
+}
 }

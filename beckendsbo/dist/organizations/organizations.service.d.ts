@@ -56,33 +56,11 @@ export declare class OrganizationsService {
         roleId: string;
         joinedAt: Date;
     })[]>;
-    findOne(id: string): Promise<({
-        owner: {
-            id: string;
-            name: string;
-            createdAt: Date;
-            updatedAt: Date;
-            email: string;
-            password: string;
-            avatarUrl: string | null;
-        };
-    } & {
-        id: string;
-        name: string;
-        description: string | null;
-        logoUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        ownerId: string;
-    }) | null>;
     getMembers(organizationId: string): Promise<({
         user: {
             id: string;
             name: string;
-            createdAt: Date;
-            updatedAt: Date;
             email: string;
-            password: string;
             avatarUrl: string | null;
         };
         role: {
@@ -100,4 +78,40 @@ export declare class OrganizationsService {
         roleId: string;
         joinedAt: Date;
     })[]>;
+    createInvite(organizationId: string, userId: string, email: string): Promise<{
+        id: string;
+        createdAt: Date;
+        email: string;
+        organizationId: string;
+        token: string;
+        status: import("@prisma/client").$Enums.InviteStatus;
+        expiredAt: Date;
+        createdById: string;
+    }>;
+    getRoles(organizationId: string): Promise<{
+        id: string;
+        name: string;
+        description: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        organizationId: string;
+    }[]>;
+    findOne(id: string): Promise<({
+        owner: {
+            id: string;
+            name: string;
+            email: string;
+        };
+    } & {
+        id: string;
+        name: string;
+        description: string | null;
+        logoUrl: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        ownerId: string;
+    }) | null>;
+    acceptInvite(inviteId: string, userId: string): Promise<{
+        message: string;
+    }>;
 }

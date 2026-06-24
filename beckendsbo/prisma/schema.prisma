@@ -87,15 +87,19 @@ model RolePermission {
   @@id([roleId, permissionId])
   @@map("role_permissions")
 }
-
 model Invite {
   id             String       @id @default(uuid())
   organizationId String
   createdById    String
+
+  email          String      
+
   token          String       @unique
   status         InviteStatus @default(PENDING)
+
   expiredAt      DateTime
   createdAt      DateTime     @default(now())
+
   createdBy      User         @relation("InviteCreator", fields: [createdById], references: [id])
   organization   Organization @relation(fields: [organizationId], references: [id])
 
