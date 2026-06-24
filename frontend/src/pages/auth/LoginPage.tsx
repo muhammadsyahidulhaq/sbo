@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { getMe, login } from '../../api/auth.service';
+import { login } from '../../api/auth.service';
 import { getMyOrganizations } from '../../api/organization.service';
 
 export default function LoginPage() {
@@ -31,7 +31,6 @@ export default function LoginPage() {
         response.access_token,
       );
 
-          const me = await getMe();
 
       const organizations =
         await getMyOrganizations();

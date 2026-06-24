@@ -39,7 +39,7 @@ export default function InvitesPage() {
     };
 
   useEffect(() => {
-    loadInvites();
+  void  loadInvites();
   }, []);
 
   const handleInvite =

@@ -60,7 +60,7 @@ export default function DashboardPage() {
     };
 
   useEffect(() => {
-    loadData();
+   void loadData();
   }, []);
 
   if (!organization) {

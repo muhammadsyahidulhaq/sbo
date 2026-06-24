@@ -68,7 +68,7 @@ export default function JoinOrganizationPage() {
     };
 
   useEffect(() => {
-    loadInvite();
+   void loadInvite();
   }, []);
 
   if (loading) {

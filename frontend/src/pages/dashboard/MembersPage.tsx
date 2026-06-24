@@ -14,7 +14,7 @@ export default function MembersPage() {
   };
 
   useEffect(() => {
-    load();
+   void load();
   }, []);
 
   return (

@@ -47,7 +47,7 @@ export default function OnboardingPage() {
   };
 
   useEffect(() => {
-    load();
+   void load();
   }, []);
 
   useEffect(() => {
@@ -59,26 +59,36 @@ export default function OnboardingPage() {
     }
   }, [me, navigate]);
 
- const handleAccept = async (id: string) => {
-  try {
-    await acceptInvite(id);
+  const handleAccept = async (
+    inviteId: string,
+  ) => {
+    try {
+      await acceptInvite(inviteId);
 
-    alert('Berhasil join organisasi');
+      alert(
+        'Berhasil join organisasi',
+      );
 
-    navigate('/dashboard');
-  } catch (error: any) {
-    console.error(error);
+      const meRes =
+        await api.get('/auth/me');
 
-    console.log(
-      error?.response?.data,
-    );
+      if (
+        meRes.data.memberships
+          ?.length > 0
+      ) {
+        navigate('/dashboard');
+        return;
+      }
 
-    alert(
-      error?.response?.data?.message ??
-      'Gagal menerima invite',
-    );
-  }
-};
+      load();
+    } catch (error) {
+      console.error(error);
+
+      alert(
+        'Gagal menerima invite',
+      );
+    }
+  };
 
   if (loading) {
     return (
